@@ -1,0 +1,10 @@
+[package]
+name = "remorse"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.90"
+chrono = "0.4.38"
+clap = { version = "4.5.20", features = ["derive"] }
+hound = "3.5.1"
