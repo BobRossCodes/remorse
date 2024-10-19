@@ -1,5 +1,5 @@
 # Remorse
-A simple Rust CLI that generates a morse code audio file from command line input
+A simple Rust CLI that generates a morse code audio file from command line input. Can also give random morse code audio samples when using the **learn** sub-command.
 
 # Usage with cargo
 ## Create a wav file from text
