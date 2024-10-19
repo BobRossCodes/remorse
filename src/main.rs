@@ -1,5 +1,5 @@
 use std::{
-    fs::remove_file, io::{stdin, stdout, Write}, path::Path
+    fs::{read_dir, remove_file}, io::{stdin, stdout, Write}, path::Path
 };
 
 use clap::{Parser, Subcommand};
@@ -40,6 +40,7 @@ enum Command {
         #[arg(long, short, action, requires="reveal")]
         delete: bool,
     },
+    Clean
 }
 
 fn main() -> anyhow::Result<()> {
@@ -81,10 +82,23 @@ fn main() -> anyhow::Result<()> {
 
                 println!("original:     {word}");
                 println!("morse form:   {}", to_morse(word));
-                
+
                 if delete {
                     remove_file(Path::new(&file_name))?;
                     println!("removed file {}", file_name);
+                }
+            }
+        },
+        Command::Clean => {
+            let read = read_dir(Path::new("."))?;
+            
+            for item in read {
+                if let Ok(entry) = item {
+                    // try to remove the filename if it ends with .wav
+                    if entry.file_name().into_string().unwrap().ends_with(".wav") {
+                        remove_file(entry.file_name())?;
+                        println!("removed {}", entry.file_name().into_string().unwrap());
+                    }
                 }
             }
         }
