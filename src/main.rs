@@ -1,5 +1,5 @@
 use std::{
-    fs::{remove_file, File}, io::{stdin, stdout, Write}, path::Path
+    fs::remove_file, io::{stdin, stdout, Write}, path::Path
 };
 
 use clap::{Parser, Subcommand};
