@@ -46,6 +46,8 @@ pub fn to_morse(s: &str) -> String {
     for c in s.chars() {
         if let Some(morse_part) = morse_map.get(&c.to_ascii_uppercase()) {
             morse_parts.push(morse_part.to_owned());
+        } else {
+            println!("Unsupported character '{}', skipping", c);
         }
     }
 
