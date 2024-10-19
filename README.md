@@ -33,6 +33,6 @@ This will remove all files ending with `.wav` in the current working directory.
 
 ## Global arguments
 ### Output file
--o | --output "my-desired-output-file.wav"`
+`-o | --output "my-desired-output-file.wav"`
 ### Open in default program
---open
+`--open`
