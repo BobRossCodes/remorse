@@ -62,6 +62,7 @@ fn main() -> anyhow::Result<()> {
             delete
         } => {
             let matched_words = learning_words(difficult_letters)?;
+
             let word = matched_words
                 .choose(&mut rand::thread_rng())
                 .expect("empty word list");
@@ -80,7 +81,7 @@ fn main() -> anyhow::Result<()> {
 
                 println!("original:     {word}");
                 println!("morse form:   {}", to_morse(word));
-
+                
                 if delete {
                     remove_file(Path::new(&file_name))?;
                     println!("removed file {}", file_name);
