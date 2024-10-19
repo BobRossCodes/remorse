@@ -36,3 +36,7 @@ This will remove all files ending with `.wav` in the current working directory.
 `-o | --output "my-desired-output-file.wav"`
 ### Open in default program
 `--open`
+### Change speed
+`-u | --unit 80`
+<br>
+Unit time in milliseconds. All other timing will be calculated by the program.

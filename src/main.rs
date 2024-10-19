@@ -1,5 +1,8 @@
 use std::{
-    fs::{read_dir, remove_file}, io::{stdin, stdout, Write}, path::Path
+    fs::{read_dir, remove_file},
+    io::{stdin, stdout, Write},
+    path::Path,
+    time::Duration,
 };
 
 use clap::{Parser, Subcommand};
@@ -17,6 +20,9 @@ mod words;
 struct Cli {
     #[command(subcommand)]
     command: Command,
+
+    #[arg(short, long, global = true, default_value_t = 80)]
+    unit: u64,
 
     #[arg(short, long, global = true)]
     output: Option<String>,
@@ -37,10 +43,10 @@ enum Command {
         #[arg(long, short, action)]
         reveal: bool,
 
-        #[arg(long, short, action, requires="reveal")]
+        #[arg(long, short, action, requires = "reveal")]
         delete: bool,
     },
-    Clean
+    Clean,
 }
 
 fn main() -> anyhow::Result<()> {
@@ -51,7 +57,8 @@ fn main() -> anyhow::Result<()> {
             let as_morse = to_morse(&text);
             println!("{}", as_morse);
 
-            let file_name: String = write_audio_file(&as_morse, args.output)?;
+            let file_name: String =
+                write_audio_file(&as_morse, Duration::from_millis(args.unit), args.output)?;
 
             if args.open {
                 opener::open(Path::new(&file_name))?;
@@ -60,7 +67,7 @@ fn main() -> anyhow::Result<()> {
         Command::Learn {
             letters: difficult_letters,
             reveal,
-            delete
+            delete,
         } => {
             let matched_words = learning_words(difficult_letters)?;
 
@@ -68,7 +75,11 @@ fn main() -> anyhow::Result<()> {
                 .choose(&mut rand::thread_rng())
                 .expect("empty word list");
 
-            let file_name = write_audio_file(&to_morse(word), args.output)?;
+            let file_name = write_audio_file(
+                &to_morse(word),
+                Duration::from_millis(args.unit),
+                args.output,
+            )?;
 
             if args.open {
                 opener::open(Path::new(&file_name))?;
@@ -88,10 +99,10 @@ fn main() -> anyhow::Result<()> {
                     println!("removed file {}", file_name);
                 }
             }
-        },
+        }
         Command::Clean => {
             let read = read_dir(Path::new("."))?;
-            
+
             for item in read {
                 if let Ok(entry) = item {
                     // try to remove the filename if it ends with .wav
