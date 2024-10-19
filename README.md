@@ -5,7 +5,7 @@ A simple Rust CLI that generates a morse code audio file from command line input
 ## Create a wav file from text
 `cargo run -- text "Hello world"`
 <br>
-By default remorse names the files in a format `YYYY-MM-DD HH.MM.wav`
+By default remorse names the files in a format `YYYY-MM-DD HH.MM.SS.wav`
 ## Specifying output file
 `cargo run -- text "Hello world"`
 
